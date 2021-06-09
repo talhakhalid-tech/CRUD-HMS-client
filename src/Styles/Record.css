@@ -7,7 +7,7 @@
   align-items: center;
   flex-direction: column;
 }
-.record-backbtn {
+.backbtn {
   position: absolute;
   top: 25px;
   left: 25px;

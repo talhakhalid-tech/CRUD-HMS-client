@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../Styles/Record.css";
+import "../../Styles/Record.css";
 
-import WardApi from "../Apis/Ward";
-import history from "../history";
+import WardApi from "../../Apis/Ward";
+import history from "../../history";
 
 export default function WardRecord() {
   const [record, setRecord] = useState(() => []);
@@ -54,15 +54,38 @@ export default function WardRecord() {
           >
             Delete
           </td>
+          <td
+            onClick={() => relatedNursesHandler(ward.W_id)}
+            className="record-actions"
+          >
+            Related Nurses
+          </td>
+          <td
+            onClick={() => relatedPatientsHandler(ward.W_id)}
+            className="record-actions"
+          >
+            Related Patients
+          </td>
         </tr>
       );
+    });
+  };
+
+  const relatedNursesHandler = async (id) => {
+    history.push({
+      pathname: "/ward/relatedNurses/" + id,
+    });
+  };
+  const relatedPatientsHandler = async (id) => {
+    history.push({
+      pathname: "/ward/relatedPatients/" + id,
     });
   };
 
   return (
     <div className="record-container">
       <div
-        className="record-backbtn"
+        className="backbtn"
         onClick={() => {
           history.push("/");
         }}
@@ -79,7 +102,7 @@ export default function WardRecord() {
               <th>Ward's Floor</th>
               <th>Ward's Total Beds</th>
               <th>Ward's Reserved Beds</th>
-              <th colSpan={2}>Actions</th>
+              <th colSpan={4}>Actions</th>
             </tr>
             {renderWardsData()}
           </tbody>

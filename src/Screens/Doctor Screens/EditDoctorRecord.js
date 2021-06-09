@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import "../Styles/EditRecord.css";
+import "../../Styles/EditRecord.css";
 
-import DoctorApi from "../Apis/Doctor";
-import history from "../history";
+import DoctorApi from "../../Apis/Doctor";
+import history from "../../history";
 
 export default function EditDoctorRecord({ location }) {
   const [dName, setDName] = useState(location.state.doctor.D_Name);
@@ -32,6 +32,14 @@ export default function EditDoctorRecord({ location }) {
 
   return (
     <div className="edit-container">
+      <div
+        className="backbtn"
+        onClick={() => {
+          history.push("/doctor");
+        }}
+      >
+        Back
+      </div>
       <div className="edit-heading">Update Doctor's Record</div>
       <div className="edit-form">
         <div className="edit-input-container">

@@ -1,21 +1,24 @@
 import React, { useState } from "react";
-import "../Styles/AddRecord.css";
+import "../../Styles/AddRecord.css";
 
-import WardApi from "../Apis/Ward";
-import history from "../history";
+import WardApi from "../../Apis/Ward";
+import history from "../../history";
 
-export default function AddWardRecord() {
-  const [wType, setWType] = useState("");
-  const [wFloor, setWFloor] = useState("");
-  const [wTotalBeds, setWTotalBeds] = useState("");
-  const [wReservedBeds, setWReservedBeds] = useState("");
+export default function EditWardRecord({ location }) {
+  const [wType, setWType] = useState(location.state.ward.W_Type);
+  const [wFloor, setWFloor] = useState(location.state.ward.W_Floor);
+  const [wTotalBeds, setWTotalBeds] = useState(location.state.ward.W_TotalBeds);
+  const [wReservedBeds, setWReservedBeds] = useState(
+    location.state.ward.W_ReservedBeds
+  );
 
   const saveRecordHandler = async () => {
     if (!wType || !wFloor || !wTotalBeds || !wReservedBeds)
       return alert("Please fill all input fields");
 
     try {
-      const res = await WardApi.post("/create", {
+      const res = await WardApi.patch("/update", {
+        wId: location.state.ward.W_id,
         wType,
         wFloor,
         wTotalBeds,
@@ -29,7 +32,15 @@ export default function AddWardRecord() {
 
   return (
     <div className="add-container">
-      <div className="add-heading">Add Ward's Record</div>
+      <div
+        className="backbtn"
+        onClick={() => {
+          history.push("/ward");
+        }}
+      >
+        Back
+      </div>
+      <div className="add-heading">Update Ward's Record</div>
       <div className="add-form">
         <div className="add-input-container">
           <label className="add-input-label">Enter Ward's Type:</label>
@@ -69,7 +80,7 @@ export default function AddWardRecord() {
         </div>
       </div>
       <div onClick={saveRecordHandler} className="add-save-btn">
-        Save Ward's Data
+        Update Ward's Data
       </div>
     </div>
   );

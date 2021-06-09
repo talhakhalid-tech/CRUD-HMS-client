@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import "../Styles/Record.css";
+import "../../Styles/Record.css";
 
-import DoctorApi from "../Apis/Doctor";
-import history from "../history";
+import DoctorApi from "../../Apis/Doctor";
+import history from "../../history";
 
 export default function DoctorRecord() {
   const [record, setRecord] = useState(() => []);
 
   const fetchDoctorsRecord = async () => {
     try {
-      const res = await DoctorApi.get("all");
+      const res = await DoctorApi.get("/all");
       setRecord(res.data.doctors);
     } catch (error) {
       alert("Oops, An Error Occured while fetching data");
@@ -36,6 +36,12 @@ export default function DoctorRecord() {
     }
   };
 
+  const relatedNursesHandler = async (id) => {
+    history.push({
+      pathname: "/doctor/relatedNurses/" + id,
+    });
+  };
+
   const renderDoctorsData = () => {
     return record.map((doctor) => {
       return (
@@ -54,6 +60,12 @@ export default function DoctorRecord() {
           >
             Delete
           </td>
+          <td
+            onClick={() => relatedNursesHandler(doctor.D_id)}
+            className="record-actions"
+          >
+            Related Nurses
+          </td>
         </tr>
       );
     });
@@ -62,7 +74,7 @@ export default function DoctorRecord() {
   return (
     <div className="record-container">
       <div
-        className="record-backbtn"
+        className="backbtn"
         onClick={() => {
           history.push("/");
         }}
@@ -79,7 +91,7 @@ export default function DoctorRecord() {
               <th>Doctor's Specialization</th>
               <th>Doctor's Cell No</th>
               <th>Doctor's Shift</th>
-              <th colSpan={2}>Actions</th>
+              <th colSpan={3}>Actions</th>
             </tr>
             {renderDoctorsData()}
           </tbody>
