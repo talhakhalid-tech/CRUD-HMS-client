@@ -7,13 +7,13 @@ import AmbulanceApi from "../../Apis/Ambulance";
 import WardApi from "../../Apis/Ward";
 import history from "../../history";
 
-export default function AddPatientRecord() {
-  const [pName, setPName] = useState("");
-  const [pDisease, setPDisease] = useState("");
-  const [pBedNo, setPBedNo] = useState("");
-  const [dId, setDId] = useState(null);
-  const [aId, setAId] = useState(null);
-  const [wId, setWId] = useState(null);
+export default function EditPatientRecord({ location }) {
+  const [pName, setPName] = useState(location.state.patient.P_Name);
+  const [pDisease, setPDisease] = useState(location.state.patient.P_Disease);
+  const [pBedNo, setPBedNo] = useState(location.state.patient.P_BedNo);
+  const [dId, setDId] = useState(location.state.patient.D_id);
+  const [aId, setAId] = useState(location.state.patient.A_id);
+  const [wId, setWId] = useState(location.state.patient.W_id);
 
   const [doctors, setDoctors] = useState(() => []);
   const [ambulances, setAmbulances] = useState(() => []);
@@ -50,11 +50,12 @@ export default function AddPatientRecord() {
     fetchWards();
   }, []);
 
-  const saveRecordHandler = async () => {
+  const editRecordHandler = async () => {
     if (!pName || !pDisease || !pBedNo)
       return alert("Please fill Name, Disease and Bed No");
     try {
-      const res = await PatientApi.post("/create", {
+      const res = await PatientApi.patch("/update", {
+        pId: location.state.patient.P_id,
         pName,
         pDisease,
         pBedNo,
@@ -72,6 +73,14 @@ export default function AddPatientRecord() {
 
   const renderDoctorOptions = () => {
     return doctors.map((doctor) => {
+      if (doctor.D_id === location.state.patient.D_id)
+        return (
+          <option
+            value={doctor.D_id}
+            selected
+          >{`${doctor.D_id} ${doctor.D_Name}`}</option>
+        );
+
       return (
         <option value={doctor.D_id}>{`${doctor.D_id} ${doctor.D_Name}`}</option>
       );
@@ -80,6 +89,13 @@ export default function AddPatientRecord() {
 
   const renderAmbulanceOptions = () => {
     return ambulances.map((ambulance) => {
+      if (ambulance.A_id === location.state.patient.A_id)
+        return (
+          <option
+            value={ambulance.A_id}
+            selected
+          >{`${ambulance.A_id} ${ambulance.A_Route}`}</option>
+        );
       return (
         <option
           value={ambulance.A_id}
@@ -90,6 +106,13 @@ export default function AddPatientRecord() {
 
   const renderWardOptions = () => {
     return wards.map((ward) => {
+      if (ward.W_id === location.state.patient.W_id)
+        return (
+          <option
+            value={ward.W_id}
+            selected
+          >{`${ward.W_id} ${ward.W_Type}`}</option>
+        );
       return <option value={ward.W_id}>{`${ward.W_id} ${ward.W_Type}`}</option>;
     });
   };
@@ -186,8 +209,8 @@ export default function AddPatientRecord() {
           </select>
         </div>
       </div>
-      <div onClick={saveRecordHandler} className="add-save-btn">
-        Save Patient's Data
+      <div onClick={editRecordHandler} className="add-save-btn">
+        Update Patient's Data
       </div>
     </div>
   );

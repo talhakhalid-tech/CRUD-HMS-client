@@ -26,7 +26,7 @@ export default function DoctorRecord({ match }) {
     return record.map((patient) => {
       return (
         <tr key={patient.P_id}>
-          <td>{patient.AId}</td>
+          <td>{patient.A_id}</td>
           <td>{patient.P_id}</td>
           <td>{patient.P_Name}</td>
           <td>{patient.P_Disease}</td>
@@ -46,7 +46,9 @@ export default function DoctorRecord({ match }) {
       >
         Back
       </div>
-      <div className="record-heading">All Related Patients Record</div>
+      <div className="record-heading">
+        Ambulance No {match.params.AId} Patient's Record
+      </div>
       <div className="record-table">
         <table>
           <tbody>

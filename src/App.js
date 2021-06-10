@@ -26,7 +26,8 @@ import AmbulancePatientRecord from "./Screens/Ambulance Screens/AmbulancePatient
 // all Patient's related components
 import PatientRecord from "./Screens/Patient Screens/PatientRecord";
 import AddPatientRecord from "./Screens/Patient Screens/AddPatientRecord";
-// import EditPatientRecord from "./Screens/Ambulance Screens/EditPatientRecord";
+import EditPatientRecord from "./Screens/Patient Screens/EditPatientRecord";
+import PatientNurseRecord from "./Screens/Patient Screens/PatientNurseRecord";
 
 function App() {
   return (
@@ -72,12 +73,12 @@ function App() {
           {/*All Patient's Related Routes*/}
           <Route path="/patient" exact component={PatientRecord} />
           <Route path="/patient/add" exact component={AddPatientRecord} />
-          {/* <Route path="/ward/edit" exact component={EditWardRecord} /> */}
-          {/* <Route
-            path="/ward/relatedNurses/:WId"
+          <Route path="/patient/edit" exact component={EditPatientRecord} />
+          <Route
+            path="/patient/relatedNurses/:PId"
             exact
-            component={WardNurseRecord}
-          /> */}
+            component={PatientNurseRecord}
+          />
         </Switch>
       </div>
     </Router>

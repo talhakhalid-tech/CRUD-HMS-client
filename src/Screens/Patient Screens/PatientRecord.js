@@ -20,27 +20,27 @@ export default function PatientRecord() {
     fetchPatientsRecord();
   }, []);
 
-  const onEditRecord = (doctor) => {
+  const onEditRecord = (patient) => {
     history.push({
-      pathname: "/doctor/edit",
-      state: { doctor },
+      pathname: "/patient/edit",
+      state: { patient },
     });
   };
 
-  //   const onDeleteRecord = async (id) => {
-  //     try {
-  //       const res = await DoctorApi.delete(`/delete?dId=${id}`);
-  //       if (res.status === 202) fetchDoctorsRecord();
-  //     } catch (error) {
-  //       alert("Oops, An Error occured While Deleting");
-  //     }
-  //   };
+  const onDeleteRecord = async (id) => {
+    try {
+      const res = await PatientApi.delete(`/delete?pId=${id}`);
+      if (res.status === 202) fetchPatientsRecord();
+    } catch (error) {
+      alert("Oops, An Error occured While Deleting");
+    }
+  };
 
-  //   const relatedNursesHandler = async (id) => {
-  //     history.push({
-  //       pathname: "/doctor/relatedNurses/" + id,
-  //     });
-  //   };
+  const relatedNursesHandler = async (id) => {
+    history.push({
+      pathname: "/patient/relatedNurses/" + id,
+    });
+  };
 
   const renderPatientsData = () => {
     return record.map((patient) => {
@@ -53,20 +53,17 @@ export default function PatientRecord() {
           <td>{patient.D_id}</td>
           <td>{patient.A_id}</td>
           <td>{patient.W_id}</td>
-          <td
-            className="record-actions"
-            //   onClick={() => onEditRecord(patient)}
-          >
+          <td className="record-actions" onClick={() => onEditRecord(patient)}>
             Edit
           </td>
           <td
             className="record-actions"
-            // onClick={() => onDeleteRecord(patient.D_id)}
+            onClick={() => onDeleteRecord(patient.P_id)}
           >
             Delete
           </td>
           <td
-            // onClick={() => relatedNursesHandler(patient.D_id)}
+            onClick={() => relatedNursesHandler(patient.P_id)}
             className="record-actions"
           >
             Related Nurses

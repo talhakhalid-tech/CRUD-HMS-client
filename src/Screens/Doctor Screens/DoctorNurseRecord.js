@@ -46,7 +46,9 @@ export default function DoctorRecord({ match }) {
       >
         Back
       </div>
-      <div className="record-heading">All Related Nurses Record</div>
+      <div className="record-heading">
+        Nurses Working Under Doctor with Id {match.params.dId}
+      </div>
       <div className="record-table">
         <table>
           <tbody>

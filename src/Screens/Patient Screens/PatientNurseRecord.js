@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "../../Styles/Record.css";
 
-import WardApi from "../../Apis/Ward";
+import PatientApi from "../../Apis/Patient";
 import history from "../../history";
 
-export default function DoctorRecord({ match }) {
+export default function PatientNurseRecord({ match }) {
   const [record, setRecord] = useState(() => []);
 
-  const fetchWardNurseRecord = async () => {
+  const fetchPatientNurseRecord = async () => {
     try {
-      const res = await WardApi.get(`/relatedNurses?WId=${match.params.WId}`);
-      console.log(res.data);
+      const res = await PatientApi.get(
+        `/relatedNurses?PId=${match.params.PId}`
+      );
       setRecord(res.data.nurses);
     } catch (error) {
       alert("Oops, An Error Occured while fetching data");
@@ -18,14 +19,14 @@ export default function DoctorRecord({ match }) {
   };
 
   useEffect(() => {
-    fetchWardNurseRecord();
+    fetchPatientNurseRecord();
   }, []);
 
-  const renderWardNursesData = () => {
+  const renderPatientNursesData = () => {
     return record.map((nurse) => {
       return (
-        <tr key={nurse.N_id}>
-          <td>{nurse.W_id}</td>
+        <tr key={nurse.D_id}>
+          <td>{nurse.P_id}</td>
           <td>{nurse.N_id}</td>
           <td>{nurse.N_Name}</td>
           <td>{nurse.N_Position}</td>
@@ -41,26 +42,26 @@ export default function DoctorRecord({ match }) {
       <div
         className="backbtn"
         onClick={() => {
-          history.push("/ward");
+          history.push("/patient");
         }}
       >
         Back
       </div>
       <div className="record-heading">
-        Ward No {match.params.WId} Nurses Record
+        Nurses Overseeing Patient with Id {match.params.PId}
       </div>
       <div className="record-table">
         <table>
           <tbody>
             <tr className="record-table-head">
-              <th>Ward's Id</th>
+              <th>Patient's Id</th>
               <th>Nurse's Id</th>
               <th>Nurse's Name</th>
               <th>Nurse's Position</th>
               <th>Nurse's Cell No</th>
               <th>Nurse's Shift</th>
             </tr>
-            {renderWardNursesData()}
+            {renderPatientNursesData()}
           </tbody>
         </table>
       </div>
