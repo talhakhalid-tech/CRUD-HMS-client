@@ -41,10 +41,11 @@ export default function AddDoctorRecord() {
         dShift,
       });
       if (res.status === 201) {
-        await DoctorApi.post("/setRelatedNurses", {
-          D_id: res.data.D_id,
-          N_id: selectedNurses.map((nurse) => nurse.N_id),
-        });
+        if (selectedNurses.length > 0)
+          await DoctorApi.post("/setRelatedNurses", {
+            D_id: res.data.D_id,
+            N_id: selectedNurses.map((nurse) => nurse.N_id),
+          });
         history.push("/doctor");
       }
     } catch (error) {
